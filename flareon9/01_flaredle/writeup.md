@@ -7,14 +7,14 @@ You probably won't win. Maybe you're like us and spent the year playing Wordle. 
 Play it live at: http://flare-on.com/flaredle/
 ```
 
-With the introduction above and the link, Flare-On also gives you a zip called flaredle.7z
+With the introduction above and the link, Flare-On also gives us a zip called flaredle.7z
 
-With a simple lookup of the files you are given, you have:
+With a simple lookup of the files we are given, we have:
 * index.html
 * script.js
 * words.js
 
-Opening words.js you immediately have the following words list:
+Opening words.js we immediately stumble with the following words list:
 ```js
 export const WORDS = ['acetylphenylhydrazine',
 	'aerobacteriologically',
@@ -50,10 +50,11 @@ let rightGuessString = WORDS[CORRECT_GUESS];
 function initBoard() {
     let board = document.getElementById("game-board");
 
-...
+    ...
+}
 ```
 
-I am immediately greeted by the variables "CORRECT_GUESS" and "rightGuessString".
+We are immediately greeted by the variables "CORRECT_GUESS" and "rightGuessString".
 Following "rightGuessString" we have a very big function called "checkGuess":
 
 ```js
@@ -61,11 +62,13 @@ function checkGuess () {
     let row = document.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - guessesRemaining]
     let guessString = ''
     let rightGuess = Array.from(rightGuessString)
+    
+    ...
+}
 ```
 
-With no further peeking, I immediately check which word is the #57 word of the list and it is: flareonisallaboutcats
+With no further peeking, We can immediately check which word is the #57 word of the list and it is: flareonisallaboutcats
 
-Upon submition of that word in the wordle game, I'm greeted with the flag: 
-```
-flareonisallaboutcats@flare-on.com
-```
+Upon submition of that word in the wordle game, we are greeted with the flag: 
+
+![image](https://user-images.githubusercontent.com/69819027/201485717-e7e4688d-b792-44bd-bf8a-5b01772a783a.png)
