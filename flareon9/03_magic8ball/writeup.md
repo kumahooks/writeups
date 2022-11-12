@@ -61,7 +61,8 @@ Right clicking the first MOV instruction and searching for references to the add
 
 Reading the code at question and the code right above it, we can reach the conclusion that this is the part of the assembly tasked to check the user's given text AND the part above it is checking some kind of movement sequence for the ball. When we randomly press the arrow keys and then send a text, it's registered at ECX the sequence of the keys we did, e.g (LDUL)
 
-The code then compares byte by byte, to this sequence: 4C, 4C, 55, 52, 55, 4C, 44, 55, 4C
+The code then compares byte by byte, to this sequence: 4C, 4C, 55, 52, 55, 4C, 44, 55, 4C.
+
 Or translated, we have: L, L, U, R, U, L, D, U, L
 
 Given all that information, we can just enter the sequence above with the text "gimme flag pls?". The key will be shown as:
