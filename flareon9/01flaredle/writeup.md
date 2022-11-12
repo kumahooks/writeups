@@ -61,10 +61,13 @@ function checkGuess () {
     let row = document.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - guessesRemaining]
     let guessString = ''
     let rightGuess = Array.from(rightGuessString)
+    
+    ...
+}
 ```
 
 With no further peeking, We can immediately check which word is the #57 word of the list and it is: flareonisallaboutcats
 
-Upon submition of that word in the wordle game, We are greeted with the flag: 
+Upon submition of that word in the wordle game, we are greeted with the flag: 
 
 ![image](https://user-images.githubusercontent.com/69819027/201485717-e7e4688d-b792-44bd-bf8a-5b01772a783a.png)
