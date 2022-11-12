@@ -50,7 +50,8 @@ let rightGuessString = WORDS[CORRECT_GUESS];
 function initBoard() {
     let board = document.getElementById("game-board");
 
-...
+    ...
+}
 ```
 
 We are immediately greeted by the variables "CORRECT_GUESS" and "rightGuessString".
