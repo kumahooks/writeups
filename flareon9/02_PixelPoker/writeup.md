@@ -14,12 +14,14 @@ Nice! Then our goal is to simply find (or find a way around it) a coordinate in 
 Opening the binary with Ollydbg, we can start to test what the binary does.
 So from playing the game quickly, we realize that once we click any place around the window, the game adds 1 to the total amount of wrong attempts. Once we reach 10 wrong attempts, we are greeted with the following message:
 
-[image pixelpoker1.png]
+![image](https://user-images.githubusercontent.com/69819027/201486257-5be0b8a2-e5da-4e90-8623-c89765384fda.png)
+
 
 My first instinct once I read this, is to dump all string references in Olly and find that message.
 This is what greets me:
 
-[image pixelpoker2.png]
+![image](https://user-images.githubusercontent.com/69819027/201486268-a9708f25-5d67-4184-b10b-31cf7eb875cc.png)
+
 
 From a quick look of this part of the code, we realize it's checking if the value stored in eax is 10(0A), if it isn't, it takes the jump:
 ```
@@ -51,4 +53,4 @@ The easiest way to see if this is the case, is filling both jumps with NOPs.
 
 Once we do that, we are greeted with:
 
-[image pixelpoker3.png]
+![image](https://user-images.githubusercontent.com/69819027/201486279-3fd5f2d5-bbce-46fd-a759-bb98d91a8ce8.png)
