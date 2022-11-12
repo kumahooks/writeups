@@ -65,7 +65,7 @@ The code then compares byte by byte, to this sequence: 4C, 4C, 55, 52, 55, 4C, 4
 
 Or translated, we have: L, L, U, R, U, L, D, U, L
 
-Given all that information, we can just enter the sequence above with the text "gimme flag pls?". The key will be shown as:
+Given all that information, we can just enter the sequence above with the text "gimme flag pls?". The flag will be shown as:
 
 ![image](https://user-images.githubusercontent.com/69819027/201487039-64f663c5-9524-446d-a4fb-f5edb6280004.png)
 
