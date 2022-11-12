@@ -66,6 +66,4 @@ function checkGuess () {
 With no further peeking, I immediately check which word is the #57 word of the list and it is: flareonisallaboutcats
 
 Upon submition of that word in the wordle game, I'm greeted with the flag: 
-```
-flareonisallaboutcats@flare-on.com
-```
+![image](https://user-images.githubusercontent.com/69819027/201485717-e7e4688d-b792-44bd-bf8a-5b01772a783a.png)
