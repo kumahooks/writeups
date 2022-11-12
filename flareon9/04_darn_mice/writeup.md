@@ -10,18 +10,21 @@ Okay, fine, that's how it is. Let's Open Olly already and debug it. Our first go
 
 If we search for string references, we can already see some strings that were supposed to show us.
 
-[image darn_mice1.png]
+![image](https://user-images.githubusercontent.com/69819027/201487734-e95f20a6-34ed-4029-bf1e-5d630b09dec8.png)
+
 
 Let's follow the first one and see where it leads.
-We immediately fall in a piece of code right after a gigantic and seemingly array initialization:
+We immediately fall in a piece of code right after (what seems to be) a gigantic array initialization:
 
-[image darn_mice2.png]
+![image](https://user-images.githubusercontent.com/69819027/201487738-68b19bf0-72b9-4402-b94d-9bb4aea4a535.png)
+
 
 Okay, first steps first. Let's trace-back and see what is calling this function:
 
-[image darn_mice3.png]
+![image](https://user-images.githubusercontent.com/69819027/201487759-7d082597-87cd-4d68-b8f2-b2199672d424.png)
 
-This looks very interesting, right? If the user is causing the crash, thus an input is somehow causing it. What kind of input are we doing by just opening the software? Well, duh! It's arguments.
+
+This looks very interesting, right? If the user is causing the crash, then an input is somehow causing it. What kind of input are we doing by just opening the software? Well, duh! It's arguments.
 And that CMP instruction from the code above is doing exactly that: checking if we have 2 arguments. If we run it with only one argument (just the file name), it immediately exits!
 
 Okay, let's run it with a big memorable argument then: "wearedoingflareonctf".
@@ -31,7 +34,8 @@ The very first thing I did when I got to this point, was after breaking at that 
 Well, that didn't work out very well for me.
 Actually, it wasn't that bad:
 
-[image darn_mice4.png]
+![image](https://user-images.githubusercontent.com/69819027/201487769-d0dc1e25-39e2-4921-b2a5-111ac4e57811.png)
+
 
 As you can see, two strings were shown to us in the console (and it didn't crash before showing them!!), but it immediately followed to an access violation code, trying to write at 0x00000077.
 Well, that didn't work out very well. Let's get back to the BP at the start of that function and learn how to walk before we run.
@@ -61,7 +65,8 @@ So it's filling what seems to be a char array with 36 bytes.
 Tracing forward, we see a function being called right after pushing the texts we saw on screen. We didn't crash nor had any violation when running the two first strings, so I stepped over then.
 The following code is ran in a seemingly error-free manner and continues until we enter in a loop (with that JMP instruction down there):
 
-[image darn_mice5.png]
+![image](https://user-images.githubusercontent.com/69819027/201487812-80e3343b-fdcc-426d-af07-2f8b3f23e82d.png)
+
 
 Now we are inside a loop and we haven't crashed yet. So far so good.
 Until now, all we did was checking if we had two arguments, checking if the argument is the correct size and showed some texts on screen.
@@ -77,7 +82,8 @@ while ((my_struct->counter)++ != 24) {
 ```
 So it's looping through both the argument and the data array. With that information, we can already assume it's gonna do some kind of comparison or operation between both datas.
 
-[image darn_mice6.png]
+![image](https://user-images.githubusercontent.com/69819027/201487839-ac03c8ec-671e-4ab0-9d46-7cb670ceffdc.png)
+
 
 After going through checking if both arrays positions are valid, it calls VirtualAlloc with a PAGE_EXECUTE_READWRITE argument, storing the allocated address at EBP-34(the struct's var4!).
 
@@ -100,9 +106,10 @@ What that means is, once we sum a byte from our argument with a byte of the enco
 
 We can easier visualize all that in here:
 
-[image darn_mice7.png]
+![image](https://user-images.githubusercontent.com/69819027/201487874-423f915c-64f3-4e58-8414-0e6a074b1583.png)
 
-A quick C++ solution shows us the argument:
+
+A quick C++ solution:
 ```C++
 #include <iostream>
 
@@ -121,8 +128,9 @@ int main(int argc, char* argv[])
 ```
 The resulting string is: "see three, C3 C3 C3 C3 C3 C3 C3! XD"
 
-Once we use that string as an argument for the program, we quickly obtain the flag:
+Once we use that string as an argument for the program, we then obtain the flag:
 
-[image darn_mice8.png]
+![image](https://user-images.githubusercontent.com/69819027/201487899-7d39bb72-3e34-45b4-8aba-a49a5fe3e5b5.png)
+
 
 I really laughed at this flag! It was a very refreshing solution :)
