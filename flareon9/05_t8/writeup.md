@@ -88,7 +88,7 @@ As you can see, the response we get is:
 ![image](https://user-images.githubusercontent.com/69819027/201500825-ca0015f8-858a-4834-927e-00398e5f3e0e.png)
 
 
-This seems a bit odd, since it's a different response to what we were expecting to receive. But the thing is, Flare-On already caught this threat. It already patched whatever response it was supposed to be sending. So we will obviously not receive the exact response of that time, because it's not exploitable anymore. But we have the exploited-response! It's in our pcap file. Considering this, we instead of giving our malware the fixed response, we can just feed it the response it was expecting beforehand. Maybe it decrypts it for us?
+This seems a bit odd, since it's a different response to what we were expecting to receive. But the thing is, Flare-On already caught this threat. It already patched whatever response it was supposed to be sending. So we will obviously not receive the exact response of that time, because it's not exploitable anymore. But we have the exploited-response! It's in our pcap file. Considering this, instead of giving our malware the fixed response, we can just feed it the response it was expecting beforehand. Maybe it decrypts it for us?
 
 The expected data from the pcap file is (don't forget the null in the end!):
 ```
