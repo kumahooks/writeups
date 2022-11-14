@@ -36,7 +36,7 @@ At the moment I'm writing this, it's 26/10/2022. Looking at where the date is st
 
 I decided to do a quick check. I changed my day and month to the same as the pcap (Jun 14). And poof! The executable skipped the sleep and we are good to start analyzing the rest. This behavior matches the original attack's situation, where it ran once one day and never again.
 
-Proceeding with the analysis, we know the threat at some point sends an encrypted message. Our goal now would be finding where that message is encrypted, so let's get back to the function that checked for the Jun 16 day.
+Proceeding with the analysis, we know the threat at some point sends an encrypted message. Our goal now would be finding where that message is encrypted, so let's get back to the function that checked for the Jun 14 day.
 
 Further down the code, we see it sends the first encrypted data `ydN8BXq16RE=` at:
 
