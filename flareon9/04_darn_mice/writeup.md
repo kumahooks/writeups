@@ -6,15 +6,14 @@ The challenge's text is as follows:
 This challenge gives us a zip called "04_darn_mice".
 Opening the .exe inside the zip, it immediately crashes.
 
-Okay, fine, that's how it is. Let's Open Olly already and debug it. Our first goal is finding out what is happening to the crashes. Flare clearly states it's an user error, so I wonder, what kind of input are we doing that causes it to crash?
+Let's Open Olly already and debug it. Our first goal is finding out what is happening to the crashes. Flare clearly states it's an user error, so I wonder, what kind of input are we doing that causes it to crash?
 
-If we search for string references, we can already see some strings that were supposed to show us.
+If we search for string references, we can already see some strings that were supposed to show us:
 
 ![image](https://user-images.githubusercontent.com/69819027/201487734-e95f20a6-34ed-4029-bf1e-5d630b09dec8.png)
 
 
-Let's follow the first one and see where it leads.
-We immediately fall in a piece of code right after (what seems to be) a gigantic array initialization:
+Let's follow the first one and see where it leads: we immediately fall in a piece of code right after (what seems to be) a gigantic array initialization:
 
 ![image](https://user-images.githubusercontent.com/69819027/201487738-68b19bf0-72b9-4402-b94d-9bb4aea4a535.png)
 
@@ -31,14 +30,13 @@ Okay, let's run it with a big memorable argument then: "wearedoingflareonctf".
 Once ran with such an argument, we get past the initial argument check into the function that has that big array we saw before.
 
 The very first thing I did when I got to this point, was after breaking at that said function initialization, I just ran(F9) the code again.
-Well, that didn't work out very well for me.
-Actually, it wasn't that bad:
+Well, that didn't work out very well for me:
 
 ![image](https://user-images.githubusercontent.com/69819027/201487769-d0dc1e25-39e2-4921-b2a5-111ac4e57811.png)
 
 
 As you can see, two strings were shown to us in the console (and it didn't crash before showing them!!), but it immediately followed to an access violation code, trying to write at 0x00000077.
-Well, that didn't work out very well. Let's get back to the BP at the start of that function and learn how to walk before we run.
+Let's get back to the BP at the start of that function and learn how to walk before we run.
 
 As you can see, the function starts defining some values in what I assume is a struct.
 We can more or less define that piece of code as:
@@ -102,7 +100,7 @@ And not coincidentally, it's also the part where a violation is occurring, becau
 
 The violation is at step 7. The reason for that violation is because (arg[index] + data[index]) results in an assembly instruction that violates on execution. What kind of result is desired to resume the execution of the code normally?
 Well that answer is obvious: the RET instruction!
-What that means is, once we sum a byte from our argument with a byte of the encoded data, we must result in a return instruction at the given address. Which only means that all we have to do to find out the correct argument for the desired execution is by subtracting 0xC3(RET) by the encoded data!
+What I mean is, once we sum a byte from our argument with a byte of the encoded data, we must result in a return instruction at the given address. Which only means that all we have to do to find out the correct argument for the desired execution is by subtracting 0xC3(RET) by the encoded data!
 
 We can easier visualize all that in here:
 
