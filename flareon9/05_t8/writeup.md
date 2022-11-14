@@ -11,9 +11,9 @@ Knowing these and with not much more to peek in the pcap, let's analyze the exec
 The first behavior we can notice is that the software opens and nothing seems to happen. Searching for the reason why this is happening, we end up a bit after the start of the main, falling in a seemingly infinite sleep routine.
 The reason for that is the comparison of whatever was returned in the `CALL 0x00294570`. If that is not 0xF, we fall into the sleep.
 
-Now, the first thing I ever did with this was simply setting eax to 0xF and proceeding my analysis. While this wasn't absolutely wrong, I had problems further down the road because understanding this value is very important later on. So let's try to at least point out how eax is being set.
+Now, the first thing I ever did with this was simply setting it to 0xF and proceeding with my analysis. While this wasn't absolutely wrong, I had problems further down the road because understanding this value is very important later on. So let's try to at least point out how this value is being created.
 
-If we get further in the `0x00294570` call, we can quickly see it's doing some date operations. At [EBP+8] we have the start of a struct that has a specific date saved. At this moment I did some kind of thought exercise: thinking how the threat actor acted in this case. We can see a function doing a bunch of operations using date values and then returning a value that decides whether the attack should be run or not. If we read the information the challenge gives us, this threat only ran one specific day. So I thought it was good to assume that's what it's checking, if we are running at the exact target day. Luckily, that wasn't very hard to poke more at: checking for Intermodular Calls, we quickly find how it's gathering the information: GetLocalTime.
+If we get further in the `0x00294570` call, we can see it's doing some date operations: at [EBP+8] we have the start of a struct that has a specific date saved. At this point I did some kind of thought exercise: thinking how the threat actor acted in this case. We can see a function doing a bunch of operations using date values and then returning a value that decides whether the attack should be run or not. If we read the information the challenge gives us, this threat only ran one specific day. So I thought it was good to assume that's what it's checking, if we are running at the exact target day. Luckily, that wasn't very hard to poke more at: checking for Intermodular Calls, we quickly find how it's gathering the information, using GetLocalTime.
 
 This function returns the following struct:
 ```cpp
@@ -75,7 +75,7 @@ B8 AE 2E 00 00 3E 66 C7 45 E6 0E 00 3E 66 C7 45 E2 06 00 C3 CC CC CC CC CC CC CC
 
 This quick patch makes sure our date is correct while also setting our EAX to 11950, which fixes the encoding later on.
 
-Okay, we managed to find the day we had to be in order to run the attack and the exact time it used to seed the data with. What now?
+Okay, we managed to find the day we had to be in order to run the attack and the exact time it used to seed the encryption with. What now?
 The next thing that happened once the threat sent the `ydN8BXq16RE=` data is receive a response from the server with an also encrypted data. Since we are mimicking step-by-step of what happened at the attack, we will probably also need to do that.
 
 Considering all this, we need to find where the attack handles the server response. One-stepping through the execution, there are some Http function calls, more specifically:
@@ -106,7 +106,7 @@ The expected data from the pcap file is (don't forget the null in the end!):
 65 7A 4A 45 74 72 44 58 50 31 44 4A 4E 67 3D 3D 00
 ```
 
-One-stepping the execution after the data is fed, we are then greeted with the flag right after the decryption is done:
+One-stepping the execution after the data is fed, we can see the flag all around the memory, after the decryption is done:
 
 ![image](https://user-images.githubusercontent.com/69819027/201500829-0de286c2-bfc8-4ba0-9679-14e736ec1195.png)
 
