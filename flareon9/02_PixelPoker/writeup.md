@@ -29,7 +29,7 @@ JNZ SHORT 0040146F
 ```
 
 From here onward, it's time to check if the clicked pixel's position was correct.
-This is the following code greeting us immediately after the jump:
+This is the following code greeting us after the jump:
 ```
 0040146F   40                             INC EAX
 00401470   33D2                           XOR EDX,EDX
@@ -51,6 +51,6 @@ This is the following code greeting us immediately after the jump:
 Noticeably, both jumps in this piece of code succeeds a check. Both of those are checking the coordinates, and if they are not correct, they jump out and execute the "wrong attempt" code.
 The easiest way to see if this is the case, is filling both jumps with NOPs.
 
-Once we do that, we are greeted with:
+Once we do that, we are greeted with the flag:
 
 ![image](https://user-images.githubusercontent.com/69819027/201486279-3fd5f2d5-bbce-46fd-a759-bb98d91a8ce8.png)

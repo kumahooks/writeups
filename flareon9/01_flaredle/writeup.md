@@ -9,12 +9,12 @@ Play it live at: http://flare-on.com/flaredle/
 
 With the introduction above and the link, Flare-On also gives us a zip called flaredle.7z
 
-With a simple lookup of the files we are given, we have:
+The files we are given are:
 * index.html
 * script.js
 * words.js
 
-Opening words.js we immediately stumble with the following words list:
+Opening words.js we stumble with the following words list:
 ```js
 export const WORDS = ['acetylphenylhydrazine',
 	'aerobacteriologically',
@@ -54,7 +54,7 @@ function initBoard() {
 }
 ```
 
-We are immediately greeted by the variables "CORRECT_GUESS" and "rightGuessString".
+We can already see the variables "CORRECT_GUESS" and "rightGuessString".
 Following "rightGuessString" we have a very big function called "checkGuess":
 
 ```js
@@ -67,7 +67,7 @@ function checkGuess () {
 }
 ```
 
-With no further peeking, We can immediately check which word is the #57 word of the list and it is: flareonisallaboutcats
+With no further peeking, We can check which word is the #57 word of the list and it is: flareonisallaboutcats
 
 Upon submition of that word in the wordle game, we are greeted with the flag: 
 
