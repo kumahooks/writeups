@@ -5,7 +5,7 @@ FLARE FACT #824: Disregard flare fact #823 if you are a .NET Reverser too.
 We will now reward your fantastic effort with a small binary challenge. You've earned it kid!
 ```
 
-From the text above my first instinct is to check the binary in dnSpy. Opening it reveals only one class called `GetFlag`:
+From the text above my first instinct is to check the binary in dnSpy. Opening it reveals only one class called `Flag`:
 
 ![image](https://user-images.githubusercontent.com/69819027/202642556-9a03bc66-1b45-48fb-914b-a89bdb27837f.png)
 
