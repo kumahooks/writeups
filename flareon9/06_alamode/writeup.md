@@ -7,7 +7,8 @@ We will now reward your fantastic effort with a small binary challenge. You've e
 
 From the text above my first instinct is to check the binary in dnSpy. Opening it reveals only one class called `GetFlag`:
 
-[image01.png]
+![image](https://user-images.githubusercontent.com/69819027/202642556-9a03bc66-1b45-48fb-914b-a89bdb27837f.png)
+
 
 The code is simple and easy to understand. It's connecting to a named pipe and passes the password to it. Seems like it expects an answer from the pipe because it receives a string as a response.
 
@@ -21,18 +22,20 @@ For reasons beyond me x32 started failing me when I started to one-step through 
 
 While one-stepping `sub_10001094` the first problem we have is a call attempting to run a NULL function. This function has as one of its arguments the pipe's address, so I assume this was supposed to be `CreateNamedPipeA`.
 
-[image02.png]
+![image](https://user-images.githubusercontent.com/69819027/202642594-de51638f-3208-4104-aff9-1e7b5e928f54.png)
+
 
 My assumption is quickly proven true when I look for references to the given function's address, finding it is one of the functions deobfuscated by `sub_100012F1`. The problem is, `sub_100012F1` not only deobfuscates the function names but also finds in the given module the function's address (`sub_1000125C`) and stores it in what seems to be a struct. While trying to find the function `CreateNamedPipeA` in the kernel dll, it can't, thus storing 0 and causing the error.
 
-[image03.png]
+![image](https://user-images.githubusercontent.com/69819027/202642608-0b7b0ccc-a0f4-4d64-9bb6-973c94501dd9.png)
+
 
 I am not sure if this was intentional (I assume so?) or if it was a problem with my environment or whatnot, but well, that happened. Anyway, this happens because it's trying to find the function at KernelBase but it's at Kernel32 instead.
 The solution is simple, at around the start of `sub_100012F1`, it calls a function `sub_100012DB`, responsible to return at EAX the KernelBase address. 
 
 As you can see from the picture below, just nopping the last `MOV EAX,DWORD PTR DS:[EAX]` is enough to make it stop at Kernel32 in the list.
 
-[image04.png]
+![image](https://user-images.githubusercontent.com/69819027/202642654-5df795d6-1088-49f7-ba7c-16d9a7315bca.png)
 
 
 After that, we can make a simple C# program to connect to the pipe stream. The code is just:
@@ -47,4 +50,4 @@ Anyway after running both the .dll and then our code, our execution past the thr
 
 After running both of the apps with the argument above, `sub_10001000` gives us the flag:
 
-[image05.png]
+![image](https://user-images.githubusercontent.com/69819027/202642677-9cbdb3e5-8a54-4f8a-aa38-7d4e93416443.png)
