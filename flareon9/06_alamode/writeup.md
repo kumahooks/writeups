@@ -15,7 +15,7 @@ The code is simple and easy to understand. It's connecting to a named pipe and p
 There's nothing more we can do with that information though, so I opened the binary in x32. Running the dll normally it either exits or crashes without doing anything. My first thoughts are that I'm supposed to have a FlareOn named pipe and since I don't have it, it exits.
 
 Looking at the string references, there are some encrypted strings which so far I am not quite sure what they are for yet. Breaking at one of them (in my case I bp'd at `0x10015070` on access for the string `TxyyrtcYvzrsG~gr`), we get two new pieces of information when it hits:
-1. The strings are accessed in a function inside `sub_100012F1`. They are decrypting the strings to function names, like `CloseHandle`, `ConnectedNamedPipe`, etc. The way they are being encrypted doesn't matter to me, at least not now.
+1. The strings are accessed in a function inside `sub_100012F1`. They are decrypting the strings to function names, like `CloseHandle`, `ConnectedNamedPipe`, etc. The way they are encrypted doesn't matter to me, at least not now.
 2. `sub_100012F1` is called in `sub_10001163`, which seems to be our DllMain.
 
 For reasons beyond me x32 started failing me when I started to one-step through the function at `sub_10001094` (threaded function in DllMain). So at this moment, I switched to good ol' Olly.
